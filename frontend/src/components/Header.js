@@ -28,7 +28,7 @@ function Header() {
 
   return (
     <header>
-      <Navbar bg="opal" variant="text-black" expand="lg" collapseOnSelect>
+      <Navbar bg="opal" variant="text-black" expand="md" collapseOnSelect>
         <Container fluid>
           <LinkContainer to="/">
             <Navbar.Brand>Agrologo</Navbar.Brand>
@@ -37,7 +37,7 @@ function Header() {
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
-              className="me-auto my-2 my-lg-0"
+              className="me-auto my-2 my-md-0"
               style={{ maxHeight: "100px" }}
               navbarScroll
             >

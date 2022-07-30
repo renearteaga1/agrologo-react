@@ -1,0 +1,16 @@
+.nav-height {
+  max-lines: "100px";
+}
+
+.navbar-text-black a {
+  color: #000000;
+}
+
+.bg-opal {
+  background-color: #9fb8ad;
+}
+
+.btn-outline-onyx {
+  color: #3f403f !important;
+  border-color: #3f403f !important;
+}
