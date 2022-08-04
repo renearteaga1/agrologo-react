@@ -10,11 +10,12 @@ import {
   Nav,
   NavDropdown,
 } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { IndexLinkContainer, LinkContainer } from "react-router-bootstrap";
 
 import SearchBox from "./SearchBox";
+import { Link } from "react-router-dom";
 
-// import { logout } from "../actions/userActions";
+import { logout } from "../actions/userActions";
 
 function Header() {
   const userLogin = useSelector((state) => state.userLogin);
@@ -23,14 +24,14 @@ function Header() {
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
-    // dispatch(logout());
+    dispatch(logout());
   };
 
   return (
     <header>
       <Navbar bg="opal" variant="text-black" expand="md" collapseOnSelect>
         <Container fluid>
-          <LinkContainer to="/">
+          <LinkContainer exact to="/" activeClassName="">
             <Navbar.Brand>Agrologo</Navbar.Brand>
           </LinkContainer>
 
@@ -40,27 +41,34 @@ function Header() {
               className="me-auto my-2 my-md-0"
               style={{ maxHeight: "100px" }}
               navbarScroll
+              activeKey="/"
             >
-              <LinkContainer to="/">
-                <Nav.Link>Inicio</Nav.Link>
+              <LinkContainer exact to="/">
+                <Nav.Link active={false}>Inicio</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/cart">
-                <Nav.Link>Carrito</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/">
-                <Nav.Link>Login</Nav.Link>
+              <LinkContainer exact to="/cart">
+                <Nav.Link active={false}>Carrito</Nav.Link>
               </LinkContainer>
 
-              {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">Login</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">
-                  Something else here
-                </NavDropdown.Item>
-              </NavDropdown> */}
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile" activeClassName="">
+                    <NavDropdown.Item>Perfil</NavDropdown.Item>
+                  </LinkContainer>
+
+                  {/* <NavDropdown.Item href="#action4">
+                    Another action
+                  </NavDropdown.Item> */}
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer exact to="/login">
+                  <Nav.Link active={false}>Login</Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
             <Form className="d-flex">
               <Form.Control

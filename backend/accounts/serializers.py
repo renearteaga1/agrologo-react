@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 
 from rest_framework import serializers
@@ -26,11 +27,47 @@ class UserSerializerWithToken(UserSerializer):
     
     class Meta:
         model = User
-        fields = ['id', '_id', 'username', 'email', 'name', 'isAdmin', 'token']
+        fields = ['id', 'username', 'email', 'first_name', 'name', 'isAdmin', 'token']
 
     def get_token(self, obj):
         token = RefreshToken.for_user(obj)
         return str(token.access_token)
+
+    def create(self, validated_data):
+        user = User.objects.create(
+            username=validated_data.get('username'),
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],            
+        )
+        user.set_password(validated_data.get('password'))
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.email = validated_data.get('email', instance.email)
+        instance.username = validated_data.get('email', instance.email)        
+        instance.set_password(validated_data.get('password', instance.password))
+        instance.save()
+        return instance
+
+
+class RegisterSerializerWithToken(UserSerializerWithToken):
+    class Meta:
+        model = User
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        user = User.objects.create(
+            username=validated_data.get('username'),
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],            
+        )
+        user.set_password(validated_data.get('password'))
+        user.save()
+        return user
+        
         
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

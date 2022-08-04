@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'index.apps.IndexConfig',
 ]
 
-EST_FRAMEWORK = {  
+REST_FRAMEWORK = {  
     'DEFAULT_AUTHENTICATION_CLASSES': (   
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )

@@ -74,3 +74,11 @@ a {
 .card-body a {
   text-decoration: none;
 }
+
+.card-no-decoration {
+  text-decoration: none;
+}
+
+.active {
+  color: #475841 !important;
+}

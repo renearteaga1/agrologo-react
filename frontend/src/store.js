@@ -1,25 +1,52 @@
 // import { configureStore, applyMiddleware, combineReducers } from "redux";
 import { combineReducers } from "redux";
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 
-import { productListReducer } from "./reducers/productReducers";
+import {
+  productListReducer,
+  productCreateReducer,
+  productDeleteReducer,
+  productUpdateReducer,
+} from "./reducers/productReducers";
 
-import { userLoginReducer } from "./reducers/userReducers";
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
+  userListProductsReducer,
+  userProductsDetailsReducer,
+  userUpdateProfileReducer,
+} from "./reducers/userReducers";
 
 const reducer = combineReducers({
   productList: productListReducer,
+  productCreate: productCreateReducer,
+  productDelete: productDeleteReducer,
+  productUpdate: productUpdateReducer,
 
   userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
+  userListProducts: userListProductsReducer,
+  userProductsDetails: userProductsDetailsReducer,
+  userUpdateProfile: userUpdateProfileReducer,
 });
 
-const initialState = {};
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+
+const initialState = {
+  userLogin: { userInfo: userInfoFromStorage },
+};
 
 const middleware = [thunk];
 
 const store = configureStore({
   reducer: reducer,
-  initialState,
+  preloadedState: initialState,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export default store;

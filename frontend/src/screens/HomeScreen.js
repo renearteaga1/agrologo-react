@@ -44,11 +44,15 @@ function HomeScreen() {
                   className="card border-secondary rounded-circle mb-3 mx-auto"
                   style={{ width: "7rem", height: "7rem" }}
                 >
-                  <div className="card-body text-secondary">
-                    <div className="card-text icon-center">VACA</div>
-                  </div>
+                  <a href="" className="icon-center card-no-decoration">
+                    <div className="card-body text-secondary">
+                      <div className="card-text ">Vaca</div>
+                    </div>
+                  </a>
                 </div>
-                <div className="text-center">Vaca</div>
+                <a href="" className="card-no-decoration">
+                  <div className="text-center">Vaca</div>
+                </a>
               </div>
 
               <div className="col">
@@ -56,11 +60,15 @@ function HomeScreen() {
                   className="card border-secondary rounded-circle mb-3 mx-auto"
                   style={{ width: "7rem", height: "7rem" }}
                 >
-                  <div className="card-body text-secondary">
-                    <div className="card-text icon-center">Toro</div>
-                  </div>
+                  <a href="" className="icon-center card-no-decoration">
+                    <div className="card-body text-secondary">
+                      <div className="card-text ">Toro</div>
+                    </div>
+                  </a>
                 </div>
-                <div className="text-center">Toro</div>
+                <a href="" className="card-no-decoration">
+                  <div className="text-center">Toro</div>
+                </a>
               </div>
 
               <div className="col">
@@ -68,11 +76,15 @@ function HomeScreen() {
                   className="card border-secondary rounded-circle mb-3 mx-auto"
                   style={{ width: "7rem", height: "7rem" }}
                 >
-                  <div className="card-body text-secondary">
-                    <div className="card-text icon-center">Novillo</div>
-                  </div>
+                  <a href="" className="icon-center card-no-decoration">
+                    <div className="card-body text-secondary">
+                      <div className="card-text ">Novillo</div>
+                    </div>
+                  </a>
                 </div>
-                <div className="text-center">Novillo</div>
+                <a href="" className="card-no-decoration">
+                  <div className="text-center">Novillo</div>
+                </a>
               </div>
 
               <div className="col">
@@ -80,11 +92,15 @@ function HomeScreen() {
                   className="card border-secondary rounded-circle mb-3 mx-auto"
                   style={{ width: "7rem", height: "7rem" }}
                 >
-                  <div className="card-body text-secondary">
-                    <div className="card-text icon-center">Vacona</div>
-                  </div>
+                  <a href="" className="icon-center card-no-decoration">
+                    <div className="card-body text-secondary">
+                      <div className="card-text ">Vacona</div>
+                    </div>
+                  </a>
                 </div>
-                <div className="text-center">Vacona</div>
+                <a href="" className="card-no-decoration">
+                  <div className="text-center">Vacona</div>
+                </a>
               </div>
             </div>
           </div>

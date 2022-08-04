@@ -1,5 +1,6 @@
 import random
 import os
+from statistics import mode
 
 from django.conf import settings
 from django.db import models
@@ -21,12 +22,37 @@ def upload_image_path(instance, filename):
             final_filename=filename
             )
     
+
+
+
+class Category(models.Model):
+    # product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=110)    
+    grupo_id = models.CharField(max_length=9, blank=True)
+    # subCategory = models.CharField(max_length=90, blank=True, null=True)
+    # SubCategory = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True)
+    info = models.CharField(max_length=250, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class SubCategory(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    subCategory = models.CharField(max_length=110)
+
+    def __str__(self) -> str:
+        return self.subCategory
+
+
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    name = models.CharField(max_length=70, null=True, blank=True)   
-    codigo = models.CharField(max_length=90, blank=True, null=True) 
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    subCategory = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=70)   
+    codigo = models.CharField(max_length=90, blank=True, null=True)
     brand = models.CharField(max_length=70, null=True, blank=True)  
-    productor = models.CharField(max_length=70, blank=True, null=True)  
+    productor = models.CharField(max_length=70, blank=True, null=True)
+    cantidad = models.DecimalField(max_digits=5, decimal_places=1, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     edad = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=1)
     peso = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=1)
@@ -39,7 +65,8 @@ class Product(models.Model):
     numReviews = models.IntegerField(null=True, blank=True, default=0)    
     countInStock = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, default=0)
     slug = models.SlugField(max_length=96, blank=True, null=True)
-    createcreatedAt = models.DateTimeField(auto_now_add=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
     
     def __str__(self):
         return str(self.name)
@@ -50,22 +77,20 @@ class Product(models.Model):
         #unique_slugify(self, slug_str)
         super(Product, self).save(**kwargs)
     
-class Category(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-    category = models.CharField(max_length=110)    
-    grupo_id = models.CharField(max_length=9, blank=True)
-    subCategory = models.CharField(max_length=90, blank=True, null=True)
-    info = models.CharField(max_length=250, blank=True, null=True)
+# class Category(models.Model):
+#     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+#     category = models.CharField(max_length=110)    
+#     grupo_id = models.CharField(max_length=9, blank=True)
+#     subCategory = models.CharField(max_length=90, blank=True, null=True)
+#     info = models.CharField(max_length=250, blank=True, null=True)
 
-    def __str__(self):
-        return self.category
+#     def __str__(self):
+#         return self.category
 
-# class SubCategory(models.Model):
-#     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
-#     subCategory = category = models.CharField(max_length=110)
+
     
 class Price(models.Model):
-     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
      user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
      costo = models.DecimalField(max_digits=12, decimal_places=5, blank=True, null=True)
      iva = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
@@ -78,7 +103,7 @@ class Price(models.Model):
             return self.product.name
         
 class Stock(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     stock = models.DecimalField(max_digits=7, decimal_places=2, default=0)
     createcreatedAt = models.DateTimeField(auto_now_add=True)
@@ -88,7 +113,7 @@ class Stock(models.Model):
 
 
 class Review(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200, null=True, blank=True)
     rating = models.IntegerField(null=True, blank=True, default=0)
