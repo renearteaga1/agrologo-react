@@ -24,10 +24,9 @@ import {
   deleteProduct,
   updateProduct,
 } from "../actions/productActions";
-import {
-  PRODUCT_CREATE_RESET,
-  PRODUCT_UPDATE_RESET,
-} from "../constants/productConstants";
+import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
+
+import { USER_PRODUCTS_DETAILS_RESET } from "../constants/userConstants";
 
 function ProfileProductScreen({ history, match }) {
   const [showForm, setShowForm] = useState(true);
@@ -83,8 +82,8 @@ function ProfileProductScreen({ history, match }) {
       if (!product || product.user != userInfo.id) {
         dispatch(detailsUserProducts(match.params.id));
       } else {
-        setCategory(product.category.toLowerCase());
-        setSubCategory(product.subCategory.toLowerCase());
+        setCategory(product.category);
+        setSubCategory(product.subCategory);
         setCantidad(Number(product.cantidad));
         setName(product.name);
         setCodigo(product.codigo);
@@ -165,11 +164,12 @@ function ProfileProductScreen({ history, match }) {
       Object.keys(producto).map((key, index) => {
         formData.append(key, producto[key]);
       });
-      console.log(formData);
-      console.log(producto);
+
       //Send create product action
       dispatch(updateProduct(formData));
-      dispatch({ type: PRODUCT_UPDATE_RESET });
+      // dispatch({ type: PRODUCT_UPDATE_RESET });
+      // dispatch({ type: USER_PRODUCTS_DETAILS_RESET });
+      window.scroll({ top: 0, left: 0, behavior: "smooth" });
       console.log("dispatched update");
     }
   };
@@ -179,6 +179,7 @@ function ProfileProductScreen({ history, match }) {
       <Row>
         <h3>Crear Publicación</h3>
       </Row>
+
       <Row>
         <div className="text-muted">Fecha publicación: {atCreated}</div>
       </Row>
@@ -192,10 +193,10 @@ function ProfileProductScreen({ history, match }) {
                 value={category}
               >
                 <option value="">---Categoria---</option>
-                <option value="bovino">Bovinos</option>
-                <option value="porcino">Porcinos</option>
+                <option value="Bovino">Bovinos</option>
+                <option value="Porcino">Porcinos</option>
                 {/* <option value="frutas">Frutas</option> */}
-                <option value="cultivo">Cultivos</option>
+                <option value="Cultivo">Cultivos</option>
               </Form.Select>
             </Form.Group>
           </FormContainer>
@@ -210,7 +211,9 @@ function ProfileProductScreen({ history, match }) {
           ))}
         </Alert>
       )}
-      {/* {success && <Alert severity="success">Publicacion creada</Alert>} */}
+      {success && <Alert severity="success">Publicacion creada</Alert>}
+      {errorUpdate && <Alert severity="error">No actualizado</Alert>}
+      {}
       {category == "bovino" && (
         <Row className="mt-4">
           <Col>

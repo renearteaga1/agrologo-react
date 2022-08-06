@@ -126,17 +126,21 @@ export const updateProduct = (product) => async (dispatch, getState) => {
       config
     );
 
+    const { dataCategories } = await axios.get(`/api/products/categories`);
+
     dispatch({
       type: PRODUCT_UPDATE_SUCCESS,
       payload: data,
+      categories: dataCategories,
     });
   } catch (error) {
+    console.log("error", error);
     dispatch({
       type: PRODUCT_UPDATE_FAIL,
       payload:
         error.response.data && error.response.data.detail
           ? error.response.data.detail
-          : error.response.message,
+          : error.message,
     });
   }
 };

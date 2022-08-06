@@ -13,6 +13,11 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
+class SubCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubCategory
+        fileds = '__all__'
+
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Price
@@ -27,17 +32,18 @@ class ProductSerializer(serializers.ModelSerializer):
     # category = serializers.SerializerMethodField(read_only=True)
     # subCategory = serializers.SerializerMethodField(read_only=True)
     category = serializers.StringRelatedField(many=False)
-    subCategory = serializers.StringRelatedField(many=False)
+    # subCategory = serializers.StringRelatedField(many=False)
     price = serializers.SerializerMethodField(read_only=True)
     image = serializers.SerializerMethodField(read_only=True)
     atCreated = serializers.SerializerMethodField(read_only=True)
     
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['category','price','image','atCreated']
 
     # def get_category(self, obj):
     #     category = obj.category
+    #     print(category)
     #     return CategorySerializer(category, many=True).data
     
     # def get_subCategory(self, obj):
@@ -56,13 +62,16 @@ class ProductSerializer(serializers.ModelSerializer):
         return obj.createdAt.strftime("%d-%b-%Y")
 
 
+
 class ProductCreateSerializer(serializers.ModelSerializer):
     # images = serializers.FileField(max_length=None, allow_empty_file=False, use_url=False)
-    category = serializers.CharField(read_only=False)
-    subCategory = serializers.CharField(read_only=False)    
+    # category = serializers.CharField(read_only=False)
+    # subCategory = serializers.CharField(read_only=False)
+
     class Meta:
         model = Product
         fields = '__all__'
+        
 
     # def get_images(self, obj):
     #     images = obj.productimage_set.last()
@@ -92,4 +101,22 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         
         return product
         # return super().create(validated_data)
+        
+    
+    def update(self, instance, validated_data):
+        print('updateing product')
+        # category = validated_data.pop('category')
+        # subCategory = validated_data.pop('subCategory')
+        if instance.category != category:
+            print('no es la misma')
+            instance.category = Category.objects.get(name=category)
+        if instance.subCategory != subCategory:
+            print('no es la misma subcategory')
+            instance.subCategory = SubCategory.objects.get(subCategory=subCategory)
+        for attr, value in validated_data.items():            
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance
+
         

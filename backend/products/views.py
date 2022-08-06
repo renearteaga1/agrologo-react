@@ -8,9 +8,13 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Product, Category, Price, Stock, Review, ProductImage
-from .serializers import ProductSerializer, ProductImageSerializer, ProductCreateSerializer
+from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, ProductCreateSerializer, SubCategory
 
 # Create your views here.
+class ListCategories(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
 # @api_view(['GET'])
 # def getProducts(request):
     
@@ -97,7 +101,7 @@ class createProduct(generics.CreateAPIView):
         
 
 class deleteProduct(generics.UpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     serializer_class = ProductSerializer
     lookup_field = 'pk'
 
@@ -111,21 +115,39 @@ class deleteProduct(generics.UpdateAPIView):
         serializer.save(active=False)
 
 class updateProduct(generics.RetrieveUpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     serializer_class = ProductCreateSerializer
     lookup_field = 'pk'
 
     def get_queryset(self):
         user = self.request.user
-        return Product.objects.filter(user=user, active=True)
+        return Product.objects.filter( active=True)
 
-    def get_serializer_class(self):
-        if self.request.method == 'GET':           
-            return ProductSerializer
-        else:
-            print('ppost')
-            return ProductCreateSerializer
+    # def get_serializer_class(self):
+    #     if self.request.method == 'GET':           
+    #         return ProductSerializer
+    #     else:
+    #         print('ppost')
+    #         formData = self.request.data.copy()
+    #         category = Category.objects.get(name=formData.get('category'))
+    #         formData['category'] = category.id
+    #         subCategory = SubCategory.objects.get(subCategory=formData.get('subCategory'))
+    #         formData['subCategory'] = subCategory.id
+    #         self.request.data = formData
+    #         print(formData)
+    #         return ProductCreateSerializer
 
     def perform_update(self, serializer):
-        print('performin update')
+        print('updating')
+        print(self.request.data)
+        # category = self.request.data.get('category')
+        # subCategory = self.request.data.get('subCategory')
+        # price = self.request.data.get('price')
+        # print('aquiget price')
+        
+        # product = serializer.save()
+        # print('grabo')
+        # category = Category.objects.get(name=category)
+        # subCategory = SubCategory.objects.get(subCategory=category)
+        # product.category = category
         

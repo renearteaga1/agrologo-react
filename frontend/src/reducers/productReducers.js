@@ -82,9 +82,16 @@ export const productUpdateReducer = (state = {}, action) => {
       return { loading: true };
 
     case PRODUCT_UPDATE_SUCCESS:
-      return { loading: false, success: true, product: action.payload };
+      return {
+        loading: false,
+        success: true,
+        product: action.payload,
+        categories: action.categories,
+      };
 
     case PRODUCT_UPDATE_FAIL:
+      console.log("pues error");
+      console.log(action.payload);
       return { loading: false, error: action.payload };
 
     case PRODUCT_UPDATE_RESET:

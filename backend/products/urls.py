@@ -9,5 +9,7 @@ urlpatterns = [
 
     path('user/', views.getUserProducts.as_view(), name="products-user"),
     # path('user/<str:pk>/', views.getUserDetailsProduct.as_view(), name="products-user-details")
-    path('user/<str:pk>/', views.updateProduct.as_view(), name="products-user-details")
+    path('user/<str:pk>/', views.updateProduct.as_view(), name="products-user-details"),
+
+    path('categories/', views.ListCategories, name='categoies-list')
 ]
