@@ -193,10 +193,10 @@ function ProfileProductScreen({ history, match }) {
                 value={category}
               >
                 <option value="">---Categoria---</option>
-                <option value="Bovino">Bovinos</option>
-                <option value="Porcino">Porcinos</option>
+                <option value="1">Bovinos</option>
+                <option value="2">Porcinos</option>
                 {/* <option value="frutas">Frutas</option> */}
-                <option value="Cultivo">Cultivos</option>
+                <option value="3">Cultivos</option>
               </Form.Select>
             </Form.Group>
           </FormContainer>
@@ -214,7 +214,7 @@ function ProfileProductScreen({ history, match }) {
       {success && <Alert severity="success">Publicacion creada</Alert>}
       {errorUpdate && <Alert severity="error">No actualizado</Alert>}
       {}
-      {category == "bovino" && (
+      {category == "1" && (
         <Row className="mt-4">
           <Col>
             <Form.Group controlId="categoria" className="">
@@ -224,11 +224,11 @@ function ProfileProductScreen({ history, match }) {
                 value={subCategory}
               >
                 <option value="">---Tipo---</option>
-                <option value="toro">Toro</option>
-                <option value="vaca">Vaca</option>
-                <option value="destete">Destete</option>
-                <option value="torete">Torete</option>
-                <option value="vacona">Vacona</option>
+                <option value="1">Toro</option>
+                <option value="2">Vaca</option>
+                <option value="3">Destete</option>
+                <option value="4">Torete</option>
+                <option value="5">Vacona</option>
               </Form.Select>
             </Form.Group>
           </Col>

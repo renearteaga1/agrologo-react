@@ -8,15 +8,22 @@ from rest_framework import serializers
 
 from .models import Product, Category, Price, Stock, Review, ProductImage, SubCategory
 
+
+class SubCategorySerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = SubCategory
+        fields = '__all__'
+        
 class CategorySerializer(serializers.ModelSerializer):
+    subcategories = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Category
         fields = '__all__'
-
-class SubCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SubCategory
-        fileds = '__all__'
+        
+    def get_subcategories(self, obj):
+        subcategories = obj.subcategory_set.all()
+        return SubCategorySerializer(subcategories, many=True).data
 
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,15 +38,17 @@ class ProductImageSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     # category = serializers.SerializerMethodField(read_only=True)
     # subCategory = serializers.SerializerMethodField(read_only=True)
-    category = serializers.StringRelatedField(many=False)
-    # subCategory = serializers.StringRelatedField(many=False)
+    category = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
+    subCategory = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     price = serializers.SerializerMethodField(read_only=True)
     image = serializers.SerializerMethodField(read_only=True)
     atCreated = serializers.SerializerMethodField(read_only=True)
+    categories = serializers.SerializerMethodField(read_only=True)
+    subCategories = serializers.SerializerMethodField(read_only=True)
     
     class Meta:
         model = Product
-        fields = ['category','price','image','atCreated']
+        fields = "__all__"
 
     # def get_category(self, obj):
     #     category = obj.category
@@ -49,6 +58,14 @@ class ProductSerializer(serializers.ModelSerializer):
     # def get_subCategory(self, obj):
     #         subCategory = obj.subcategory
     #         return CategorySerializer(subCategory, many=True).data
+    
+    def get_categories(self, obj):
+        categories = Category.objects.all()
+        return CategorySerializer(categories, many=True).data
+    
+    def get_subCategories(self,obj):
+        subcategories = SubCategory.objects.all()
+        return SubCategorySerializer(subcategories, many=True).data
 
     def get_price(self,obj):
         price = obj.price_set.last()
@@ -67,6 +84,8 @@ class ProductCreateSerializer(serializers.ModelSerializer):
     # images = serializers.FileField(max_length=None, allow_empty_file=False, use_url=False)
     # category = serializers.CharField(read_only=False)
     # subCategory = serializers.CharField(read_only=False)
+    category = serializers.StringRelatedField(read_only=False)
+    subCategory = serializers.StringRelatedField(read_only=False)
 
     class Meta:
         model = Product

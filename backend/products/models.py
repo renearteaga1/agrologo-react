@@ -40,9 +40,8 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     subCategory = models.CharField(max_length=110)
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.subCategory
-
 
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

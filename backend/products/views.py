@@ -123,19 +123,19 @@ class updateProduct(generics.RetrieveUpdateAPIView):
         user = self.request.user
         return Product.objects.filter( active=True)
 
-    # def get_serializer_class(self):
-    #     if self.request.method == 'GET':           
-    #         return ProductSerializer
-    #     else:
-    #         print('ppost')
-    #         formData = self.request.data.copy()
-    #         category = Category.objects.get(name=formData.get('category'))
-    #         formData['category'] = category.id
-    #         subCategory = SubCategory.objects.get(subCategory=formData.get('subCategory'))
-    #         formData['subCategory'] = subCategory.id
-    #         self.request.data = formData
-    #         print(formData)
-    #         return ProductCreateSerializer
+    def get_serializer_class(self):
+        if self.request.method == 'GET':           
+            return ProductSerializer
+        else:
+            print('ppost')
+            formData = self.request.data.copy()
+            category = Category.objects.get(name=formData.get('category'))
+            formData['category'] = category.id
+            subCategory = SubCategory.objects.get(subCategory=formData.get('subCategory'))
+            formData['subCategory'] = subCategory.id
+            self.request.data = formData
+            print(formData)
+            return ProductCreateSerializer
 
     def perform_update(self, serializer):
         print('updating')

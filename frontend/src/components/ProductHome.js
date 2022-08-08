@@ -7,13 +7,14 @@ import {
   ImageListItem,
   ImageListItemBar,
   IconButton,
+  ListSubheader,
 } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 function ProductHome({ itemData }) {
   return (
     <div>
-      <ImageList variant="masonry" cols={3} gap={8}>
+      {/* <ImageList variant="masonry" cols={3} gap={8}>
         {itemData.map((item) => (
           <a href={`/products/${item.id}`} key={item.id}>
             <ImageListItem>
@@ -44,6 +45,41 @@ function ProductHome({ itemData }) {
               <ImageListItemBar position="below" title={item.productor} />
             </ImageListItem>
           </a>
+        ))}
+      </ImageList> */}
+
+      <ImageList sx={{ width: 500, height: 450 }}>
+        <ImageListItem key="Subheader" cols={2}>
+          {/* <ListSubheader component="div">December</ListSubheader> */}
+        </ImageListItem>
+        {itemData.map((item) => (
+          <ImageListItem key={item.id}>
+            <img
+              src={`${item.image.image1}?w=248&fit=crop&auto=format`}
+              srcSet={`${item.image.image1}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              alt={item.name}
+              loading="lazy"
+            />
+            <ImageListItemBar
+              sx={{
+                background:
+                  "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, " +
+                  "rgba(0,0,0,0.5) 75%, rgba(0,0,0,0.3) 100%)",
+              }}
+              title={item.price.precioTotal}
+              subtitle={item.precioTotal}
+              position="top"
+              actionIcon={
+                <IconButton
+                  sx={{ color: "rgba(255, 255, 255, 1)" }}
+                  aria-label={`info about ${item.price.precioTotal}`}
+                >
+                  <AttachMoneyIcon color="white" />
+                </IconButton>
+              }
+              actionPosition="left"
+            />
+          </ImageListItem>
         ))}
       </ImageList>
     </div>
