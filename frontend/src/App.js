@@ -23,6 +23,7 @@ function App() {
           <Route path="/register" component={RegisterScreen} />
           <Route path="/profile" exact component={ProfileScreen} />
           <Route path="/profile/product/:id" component={ProfileProductScreen} />
+          <Route path="/product/:id" exact component={ProductScreen} />
           <Route
             path="/product/create"
             strict

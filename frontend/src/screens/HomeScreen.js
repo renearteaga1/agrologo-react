@@ -9,18 +9,22 @@ import { Alert, CircularProgress } from "@mui/material";
 
 import Product from "../components/Product";
 import ProductHome from "../components/ProductHome";
+import SubCategoryHeader from "../components/SubCategoryHeader";
+import Paginate from "../components/Paginate";
 
-function HomeScreen() {
+function HomeScreen({ history }) {
   // let products = [{ id: "1", name: "producto1" }];
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
 
-  const { error, loading, products } = productList;
+  const { error, loading, products, count, next } = productList;
+
+  let keyword = history.location.search;
 
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>
@@ -39,69 +43,13 @@ function HomeScreen() {
         <>
           <div className="container">
             <div className="row">
-              <div className="col">
-                <div
-                  className="card border-secondary rounded-circle mb-3 mx-auto"
-                  style={{ width: "7rem", height: "7rem" }}
-                >
-                  <a href="" className="icon-center card-no-decoration">
-                    <div className="card-body text-secondary">
-                      <div className="card-text ">Vaca</div>
-                    </div>
-                  </a>
-                </div>
-                <a href="" className="card-no-decoration">
-                  <div className="text-center">Vaca</div>
-                </a>
-              </div>
+              <SubCategoryHeader name="Vaca" />
 
-              <div className="col">
-                <div
-                  className="card border-secondary rounded-circle mb-3 mx-auto"
-                  style={{ width: "7rem", height: "7rem" }}
-                >
-                  <a href="" className="icon-center card-no-decoration">
-                    <div className="card-body text-secondary">
-                      <div className="card-text ">Toro</div>
-                    </div>
-                  </a>
-                </div>
-                <a href="" className="card-no-decoration">
-                  <div className="text-center">Toro</div>
-                </a>
-              </div>
+              <SubCategoryHeader name="Toro" />
 
-              <div className="col">
-                <div
-                  className="card border-secondary rounded-circle mb-3 mx-auto"
-                  style={{ width: "7rem", height: "7rem" }}
-                >
-                  <a href="" className="icon-center card-no-decoration">
-                    <div className="card-body text-secondary">
-                      <div className="card-text ">Novillo</div>
-                    </div>
-                  </a>
-                </div>
-                <a href="" className="card-no-decoration">
-                  <div className="text-center">Novillo</div>
-                </a>
-              </div>
+              <SubCategoryHeader name="Novillo" />
 
-              <div className="col">
-                <div
-                  className="card border-secondary rounded-circle mb-3 mx-auto"
-                  style={{ width: "7rem", height: "7rem" }}
-                >
-                  <a href="" className="icon-center card-no-decoration">
-                    <div className="card-body text-secondary">
-                      <div className="card-text ">Vacona</div>
-                    </div>
-                  </a>
-                </div>
-                <a href="" className="card-no-decoration">
-                  <div className="text-center">Vacona</div>
-                </a>
-              </div>
+              <SubCategoryHeader name="Vacona" />
             </div>
           </div>
           <div className="container my-5">
@@ -117,6 +65,11 @@ function HomeScreen() {
                 </Col>
               ))} */}
             </Row>
+            <div className="d-flex justify-content-center">
+              <Row className="justify-content-center">
+                <Paginate keyword={keyword} count={count} next={next} />
+              </Row>
+            </div>
           </div>
         </>
       )}

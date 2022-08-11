@@ -53,33 +53,35 @@ function ProductHome({ itemData }) {
           {/* <ListSubheader component="div">December</ListSubheader> */}
         </ImageListItem>
         {itemData.map((item) => (
-          <ImageListItem key={item.id}>
-            <img
-              src={`${item.image.image1}?w=248&fit=crop&auto=format`}
-              srcSet={`${item.image.image1}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              alt={item.name}
-              loading="lazy"
-            />
-            <ImageListItemBar
-              sx={{
-                background:
-                  "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, " +
-                  "rgba(0,0,0,0.5) 75%, rgba(0,0,0,0.3) 100%)",
-              }}
-              title={item.price.precioTotal}
-              subtitle={item.precioTotal}
-              position="top"
-              actionIcon={
-                <IconButton
-                  sx={{ color: "rgba(255, 255, 255, 1)" }}
-                  aria-label={`info about ${item.price.precioTotal}`}
-                >
-                  <AttachMoneyIcon color="white" />
-                </IconButton>
-              }
-              actionPosition="left"
-            />
-          </ImageListItem>
+          <a href={`/product/${item.id}`} key={item.id}>
+            <ImageListItem key={item.id}>
+              <img
+                src={`${item.image.image1}?w=248&fit=crop&auto=format`}
+                srcSet={`${item.image.image1}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                alt={item.name}
+                loading="lazy"
+              />
+              <ImageListItemBar
+                sx={{
+                  background:
+                    "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, " +
+                    "rgba(0,0,0,0.5) 75%, rgba(0,0,0,0.3) 100%)",
+                }}
+                title={item.price.precioTotal}
+                subtitle={item.precioTotal}
+                position="top"
+                actionIcon={
+                  <IconButton
+                    sx={{ color: "rgba(255, 255, 255, 1)" }}
+                    aria-label={`info about ${item.price.precioTotal}`}
+                  >
+                    <AttachMoneyIcon color="white" />
+                  </IconButton>
+                }
+                actionPosition="left"
+              />
+            </ImageListItem>
+          </a>
         ))}
       </ImageList>
     </div>

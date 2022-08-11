@@ -31,10 +31,34 @@ export const productListReducer = (state = { products: [] }, action) => {
       return { loading: true, products: [] };
 
     case PRODUCT_LIST_SUCCESS:
-      return { loading: false, products: action.payload };
+      return {
+        loading: false,
+        products: action.payload.results,
+        count: action.payload.count,
+        next: action.payload.next,
+      };
 
     case PRODUCT_LIST_FAIL:
       return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const productDetailsReducer = (
+  state = { product: { price: {}, image: {} } },
+  action
+) => {
+  switch (action.type) {
+    case PRODUCT_DETAILS_REQUEST:
+      return { loading: true, ...state };
+
+    case PRODUCT_DETAILS_SUCCESS:
+      return { loading: false, product: action.payload };
+
+    case PRODUCT_DETAILS_FAIL:
+      return { loading: false };
 
     default:
       return state;

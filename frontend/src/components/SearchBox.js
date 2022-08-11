@@ -17,22 +17,18 @@ function SearchBox() {
   };
 
   return (
-    <Form onSubmit={submitHandler}>
-      <Row>
-        <Col>
-          <Form.Control
-            type="text"
-            name="q"
-            onChange={(e) => setKeyword(e.target.value)}
-            className="me-sm-2 ms-sm-5"
-          ></Form.Control>
-        </Col>
-        <Col sm={4}>
-          <Button type="submit" variant="outline-success" className="p-2">
-            Submit
-          </Button>
-        </Col>
-      </Row>
+    <Form className="d-flex" onSubmit={submitHandler}>
+      <Form.Control
+        type="search"
+        placeholder="Search"
+        className="me-2"
+        aria-label="Search"
+        name="q"
+        onChange={(e) => setKeyword(e.target.value)}
+      />
+      <Button variant="outline-onyx" type="submit">
+        Search
+      </Button>
     </Form>
   );
 }
